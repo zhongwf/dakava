@@ -47,15 +47,18 @@
 	           </tr>
             </script>
             <script>
-			    var recordId = "init";
-                $(document).ready(function () {
-                
-                $("#cloudEditor").click(function () {
+			
+			function cloudEditorClick(){
+			
                 alert('在线开发工具的用户名：username，密码：password' );
                 window.open("http://182.92.156.85:8999/");
                    
-                }
-                );
+                
+			}
+			    var recordId = "init";
+                $(document).ready(function () {
+                
+                
                 
                 
                 
@@ -153,7 +156,7 @@
                             { command: ["edit", "destroy"], title: "编辑", width: "180px" },
 							{ command: { text: "设置字段", click: showDetails }, title: "设置字段", width: "120px" },
 							{ command: { text: "生成代码", click: codeGen }, title: "生成代码", width: "120px" },
-							{ command: { text: "打开维护界面入口", click: preview }, title: '<b><a class="" target="_blank" href="#" id="cloudEditor"><span class=" "></span>在线开发调试</a></b>', width: "180px" }],
+							{ command: { text: "打开维护界面入口", click: preview }, title: '<b><a class="" id="cloudEditor" onclick="cloudEditorClick()"><span class=" "></span>在线开发调试</a></b>', width: "180px" }],
 						
 						 
                         //editable: "inline"
