@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/components/kendoui/kendo.common.min.css" />
+    <link rel="stylesheet" href="/components/kendoui/kendo.default.min.css" />
+
+    <script src="/components/kendoui/jquery.min.js"></script>
+    <script src="/components/kendoui/kendo.all.min.js"></script>
+	<script src="/components/kendoui/kendo.messages.zh-CN.min.js"></script>
+
+</head>
+<body>
+        <div id="example">
+		<h1  id="title">数据表信息</h1>
+            <div id="grid"></div>
+ <script id="rowTemplate" type="text/x-kendo-tmpl">
+	            <tr data-uid="#: id #">
+		            <td class="photo">
+                       <span class="tableName">#: tableName#  </span>
+		            </td>
+		            <td class="details">
+			           <span class="tableCode">#: tableCode#  </span>
+		            </td>
+                    <td class="country">
+			            #: createdAt #
+		            </td>
+		            <td class="employeeID">
+		               #: updatedAt #
+		            </td>
+	           </tr>
+            </script>
+            <script id="altRowTemplate" type="text/x-kendo-tmpl">
+	            <tr class="k-alt" data-uid="#: id #">
+		            <td class="photo">
+                       <span class="tableName">#: tableName#  </span>
+		            </td>
+		            <td class="details">
+			           <span class="tableCode">#: tableCode#  </span>
+		            </td>
+                    <td class="country">
+			            #: createdAt #
+		            </td>
+		            <td class="employeeID">
+		               #: updatedAt #
+		            </td>
+	           </tr>
+            </script>
+            <script>
+			    var recordId = "init";
+                $(document).ready(function () {
+                    var crudServiceBaseUrl = "",
+                        dataSource = new kendo.data.DataSource({
+                            transport: {
+                                read:  {
+                                    url: crudServiceBaseUrl + "/<%= api %>",
+                                    dataType: "json"
+                                },
+							
+                                update: {
+                                    url: function(options) {
+									console.log("options.id:" + options.id);
+										return crudServiceBaseUrl + "/<%= api %>/" + options.id;
+									}
+									,
+                                    dataType: "json" ,
+									type: "PUT"
+                                },
+								/*
+								update: function(options) {
+	 // console.log("options.data.models.id" + options.data.models.id);
+     
+    },	*/
+								
+                                destroy: {
+                                    url: crudServiceBaseUrl + "/<%= api %>/destroy",
+                                    dataType: "json" ,
+									data: { q: "html5" }
+                                },
+                                create: {
+                                    url: crudServiceBaseUrl + "/<%= api %>/create",
+                                    dataType: "json" ,
+									type: "POST"
+                                }
+								 /*,
+								 parameterMap: function(data, type) {
+								 console.log("recordId" + recordId);
+								 recordId = data.id;
+								 console.log("type" + type + " " + data);
+								 console.log("recordId" + recordId);
+								
+      if (type != "read") {
+        // send take as "$top" and skip as "$skip"
+		console.log("data.id:" +data.id);
+        return {
+          $id: data.id,
+          $name: data.name
+        }
+      }
+    }*/
+                            },
+                            batch: false,
+                            pageSize: 20,
+                            schema: {
+                                model: {
+                                    id: "id",
+                                    fields: {
+                                        id: { editable: false, nullable: true },
+                                        createdAt: {  },
+                                        updatedAt: {  },
+										name: { validation: { required: true } },
+                                    }
+                                }
+                            }
+                        });
+
+					dataSource.sync();
+                    $("#grid").kendoGrid({
+                        dataSource: dataSource,
+                        pageable: true,
+                        height: 550,
+                        toolbar: ["create"],
+						/*
+						serverFiltering: true,
+						filterable: {
+                            mode: "row"
+                        },
+						*/
+						/*	*/
+                        columns: [
+                            { field: "talbeName", title: "名称", format: "{0:c}", width: "220px",filterable: {
+                                cell: {
+                                    operator: "contains"
+                                }
+                            } },
+							{ field: "tableCode", title: "数据库表代码", format: "{0:c}", width: "220px",filterable: {
+                                cell: {
+                                    operator: "contains"
+                                }
+                            } },
+                            { field: "createdAt", title: "创建时间" },
+                            { field: "updatedAt" , title: "修改时间" },
+                            { command: ["edit", "destroy"], title: "编辑", width: "180px" },
+							{ command: { text: "设置字段", click: showDetails }, title: "设置字段", width: "120px" },
+							{ command: { text: "生成代码", click: codeGen }, title: "生成代码", width: "120px" },
+							{ command: { text: "打开维护界面入口", click: preview }, title: '<b><a class="" target="_blank" href="http://182.92.156.85:8999/"><span class=" "></span>在线开发调试</a></b>', width: "180px" }],
+						
+						 
+                        //editable: "inline"
+						 editable: "popup",
+					//	 rowTemplate: kendo.template($("#rowTemplate").html()),
+                    //    altRowTemplate: kendo.template($("#altRowTemplate").html())
+                    });
+					
+					function showDetails(e) {
+						e.preventDefault();
+
+						var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                    
+						console.log(dataItem);
+						window.open("/greeting/myColumn?tableId=" + dataItem.id);
+					}
+					function codeGen(e) {
+						e.preventDefault();
+
+						var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                    
+						console.log("dataItem:" + dataItem);
+						
+						$.ajax({ url: "/greeting/codeGenerator?tableCode=" + dataItem.tableCode, context: document.body, success: function(){
+							alert("done");
+						}});
+						//window.open("/greeting/myColumn?tableId=" + dataItem.id);
+					}
+					function preview(e) {
+						e.preventDefault();
+
+						var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                    
+						console.log("dataItem:" + dataItem);
+						
+						//window.open("http://182.92.156.85:2000/greeting/preview?tableCode=" + dataItem.tableCode);
+						$.ajax({ url: "http://182.92.156.85:2000/" + dataItem.tableCode, context: document.body, 
+						success: function(){
+						    window.open("/greeting/preview?tableId=" + dataItem.id);
+							//alert("done");
+						},
+						error: function(){
+							alert("无法访问！请先点击'生成代码'，然后再在'在线开发调试'工具中启动调试服务。");
+						}
+						
+						});
+						
+						//http://182.92.156.85:2000/MYLOGER
+					}
+					
+					
+                });
+            </script>
+        </div>
+
+
+</body>
+</html>
