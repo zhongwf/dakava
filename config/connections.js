@@ -58,14 +58,14 @@ module.exports.connections = {
   * Run: npm install sails-mongo                                             *
   *                                                                          *
   ***************************************************************************/
-  someMongodbServer: {
+  someMongodbServerAliyun: {
     adapter: 'sails-mongo',
-    host: 'xxxx.mongolab.com',
-    port: 63892,
-    user: 'hello',
-    password: 'hello',
-    database: 'test'
-  },
+    host: 'wx.jprda.com',
+    port: 27017,
+    user: 'cloud_user',
+    password: '123455',
+    database: 'cloud'
+  },  
 
   /***************************************************************************
   *                                                                          *
