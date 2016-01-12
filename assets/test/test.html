@@ -10,7 +10,7 @@
 var userid ;
 function redirect(id){
     userid = id;
-    $("#msg").html("5秒钟后自动跳转。如没有自动跳转请<a href="/greeting/myTable?user=" + userid + ">点此</a>跳转");
+    $("#msg").html("5秒钟后自动跳转。如没有自动跳转请<a href=/greeting/myTable?user=" + userid + ">点此</a>跳转");
     setTimeout("real()",5000);
 	
 }
