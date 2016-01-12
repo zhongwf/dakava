@@ -1,0 +1,11 @@
+/**
+ * DsfsdfController
+ *
+ * @description :: Server-side logic for managing dsfsdfs
+ * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
+ */
+
+module.exports = {
+	
+};
+

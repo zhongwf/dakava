@@ -1,0 +1,21 @@
+<html>
+<script type='text/javascript' src='http://ajax.useso.com/ajax/libs/jquery/1.7.2/jquery.min.js?ver=3.4.2'></script>
+<script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="1105032737" data-redirecturi="http://node.jprda.com/test/test.html" charset="utf-8"></script>
+<script src="/components/lotqq/lotqq.js"></script>
+
+<script type="text/javascript">
+/*	*/
+	$.lotqq('1105032737', 'http://node.jprda.com/xx', 'lotqq', function (data) {
+		//回调函数，进行一些你需要的存储~~~（data数组有你需要的数据）
+		console.log('Name:' + data.Name);
+		console.log('OpenId:' + data.OpenId);
+		console.log('AccessToken:' + data.AccessToken);
+		console.log('Figureurl:' + data.Figureurl);
+	});
+
+</script>
+<body>
+    
+    <a id="lotqq">hello</a>
+</body>
+</html>
