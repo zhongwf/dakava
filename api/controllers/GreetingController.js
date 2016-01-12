@@ -45,7 +45,7 @@ module.exports = {
 	},
 	//我的表
 	myTable: function (req, res) {//cn
-		res.render('myTable', { title: '我的数据表' , api: 'table'}); 
+		res.render('myTable', { title: '我的数据表' , api: 'table' ,user: req.query.user}); 
 	},
 	//我的表字段
 	myColumn: function (req, res) {//cn

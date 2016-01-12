@@ -8,9 +8,24 @@
     <script src="/components/kendoui/jquery.min.js"></script>
     <script src="/components/kendoui/kendo.all.min.js"></script>
 	<script src="/components/kendoui/kendo.messages.zh-CN.min.js"></script>
+	<script>
+	$(document).ready(function () {
+	    	$.ajax({ url: '/user/find?where={"openid":"<%= user %>"}', 
+						success: function(data){ 
+						
+                            if(data.length == 0){
+                             window.location = "/test/test.html";
+                            }
+                        }
+	});
+	
+	});
+
+	</script>
 
 </head>
 <body>
+
         <div id="example">
 		<h1  id="title">数据表信息</h1>
             <div id="grid"></div>
@@ -68,6 +83,7 @@
                                 read:  {
                                     url: crudServiceBaseUrl + "/<%= api %>",
                                     dataType: "json"
+                                   , data: { where: '{"user":"<%= user %>"}' }
                                 },
 							
                                 update: {
@@ -77,7 +93,10 @@
 									}
 									,
                                     dataType: "json" ,
-									type: "PUT"
+									type: "PUT",
+									data: {
+										user: "<%= user %>"
+									}
                                 },
 								/*
 								update: function(options) {
@@ -93,7 +112,10 @@
                                 create: {
                                     url: crudServiceBaseUrl + "/<%= api %>/create",
                                     dataType: "json" ,
-									type: "POST"
+									type: "POST",
+									data: {
+										user: "<%= user %>"
+									}
                                 }
 								 /*,
 								 parameterMap: function(data, type) {
