@@ -7,8 +7,15 @@
 
 <script type="text/javascript">
 
+var userid ;
 function redirect(id){
-	window.location = "/greeting/myTable?user=" + id;
+    userid = id;
+    $("#msg").html("5秒钟后自动跳转。如没有自动跳转请<a href="/greeting/myTable?user=" + userid + ">点此</a>跳转");
+    setTimeout("real()",5000);
+	
+}
+function real(){
+	window.location = "/greeting/myTable?user=" + userid;
 }
 /*	*/
 	$.lotqq('101286516', 'http://node.jprda.com/test/test.html', 'lotqq', function (data) {
@@ -55,7 +62,7 @@ $.ajax({ url: '/user/find?where={"openid":"' + openid + '"}',
 </script>
 <body>
     
-<a>请使用QQ登录</a>
+<a id="msg">请使用QQ登录</a>
 <br>
 <a id="lotqq">hello</a>
 </body>
