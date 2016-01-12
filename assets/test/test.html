@@ -4,18 +4,57 @@
 <script src="/components/lotqq/lotqq.js"></script>
 
 <script type="text/javascript">
+
+function redirect(id){
+	window.location = "/greeting/myTable?user=" + id;
+}
 /*	*/
 	$.lotqq('101286516', 'http://node.jprda.com/test/test.html', 'lotqq', function (data) {
 		//回调函数，进行一些你需要的存储~~~（data数组有你需要的数据）
 		console.log('Name:' + data.Name);
+		var name = data.Name;
 		console.log('OpenId:' + data.OpenId);
+		var openid = "QQ_" + data.OpenId;
 		console.log('AccessToken:' + data.AccessToken);
 		console.log('Figureurl:' + data.Figureurl);
+$.ajax({ url: '/user/find?where={"openid":"' + openid + '"}', 
+						success: function(data){ 
+						
+                            if(data.length != 0){
+								redirect(openid); 
+							}else{
+							//alert("fail");
+							
+   $.ajax({
+            //提交数据的类型 POST GET
+            type:"POST",
+            //提交的网址
+            url:"/user/create",
+            //提交的数据
+            data:{openid : openid, name:name},
+            //返回数据的格式
+            datatype: "xml",//"xml", "html", "script", "json", "jsonp", "text".
+            //成功返回之后调用的函数             
+            success:function(data){
+              redirect(openid);           
+            }   ,
+            //调用出错执行的函数
+            error: function(){
+                //请求出错处理
+            }         
+         });
+							
+						}						
+						} 
+						
+						});
 	});
 
 </script>
 <body>
     
-    <a id="lotqq">hello</a>
+<a>...</a>
+<br>
+<a id="lotqq">hello</a>
 </body>
 </html>
