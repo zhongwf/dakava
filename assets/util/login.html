@@ -23,7 +23,7 @@
 var userid ;
 function redirect(id){
     userid = id;
-    $("#msg").html("5秒后自动跳转,如没自动跳转请<a href=/greeting/myTable?user=" + userid + " style='color:yellow'>点此</a>跳转");
+    $("#msg").html("5秒后自动跳转,如没自动跳转请<a href=/greeting/myTable?user=" + userid + " style='color:yellow;text-decoration: underline;'>点此</a>跳转");
     setTimeout("real()",5000);
 	
 }
