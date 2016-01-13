@@ -1,76 +1,3 @@
-<!--
-<html>
-
-<title>用户登录</title>
-<script type='text/javascript' src='http://ajax.useso.com/ajax/libs/jquery/1.7.2/jquery.min.js?ver=3.4.2'></script>
-<script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="101286516" data-redirecturi="http://node.jprda.com/test/test.html" charset="utf-8"></script>
-<script src="/components/lotqq/lotqq.js"></script>
-
-<script type="text/javascript">
-
-var userid ;
-function redirect(id){
-    userid = id;
-    $("#msg").html("5秒钟后自动跳转。如没有自动跳转请<a href=/greeting/myTable?user=" + userid + ">点此</a>跳转");
-    setTimeout("real()",5000);
-	
-}
-function real(){
-	window.location = "/greeting/myTable?user=" + userid;
-} 
-	$.lotqq('101286516', 'http://node.jprda.com/test/test.html', 'lotqq', function (data) {
-		//回调函数，进行一些你需要的存储~~~（data数组有你需要的数据）
-		console.log('Name:' + data.Name);
-		var name = data.Name;
-		console.log('OpenId:' + data.OpenId);
-		var openid = "QQ_" + data.OpenId;
-		console.log('AccessToken:' + data.AccessToken);
-		console.log('Figureurl:' + data.Figureurl);
-$.ajax({ url: '/user/find?where={"openid":"' + openid + '"}', 
-						success: function(data){ 
-						
-                            if(data.length != 0){
-								redirect(openid); 
-							}else{
-							//alert("fail");
-							
-   $.ajax({
-            //提交数据的类型 POST GET
-            type:"POST",
-            //提交的网址
-            url:"/user/create",
-            //提交的数据
-            data:{openid : openid, name:name},
-            //返回数据的格式
-            datatype: "xml",//"xml", "html", "script", "json", "jsonp", "text".
-            //成功返回之后调用的函数             
-            success:function(data){
-              redirect(openid);           
-            }   ,
-            //调用出错执行的函数
-            error: function(){
-                //请求出错处理
-            }         
-         });
-							
-						}						
-						} 
-						
-						});
-	});
-
-</script>
-<body>
-    
-<a id="msg">请使用QQ登录</a>
-<br>
-
-</body>
-</html>
--->
-
-
-
 <!DOCTYPE HTML>
 <html class=" hasFontSmoothing-true">
   <head> 
@@ -88,7 +15,7 @@ $.ajax({ url: '/user/find?where={"openid":"' + openid + '"}',
 </script>
 
 <script type='text/javascript' src='http://ajax.useso.com/ajax/libs/jquery/1.7.2/jquery.min.js?ver=3.4.2'></script>
-<script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="101286516" data-redirecturi="http://node.jprda.com/test/test.html" charset="utf-8"></script>
+<script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="101286516" data-redirecturi="http://node.jprda.com/util/login.html" charset="utf-8"></script>
 <script src="/components/lotqq/lotqq.js"></script>
 
 <script type="text/javascript">
@@ -103,7 +30,7 @@ function redirect(id){
 function real(){
 	window.location = "/greeting/myTable?user=" + userid;
 } 
-	$.lotqq('101286516', 'http://node.jprda.com/test/test.html', 'lotqq', function (data) {
+	$.lotqq('101286516', 'http://node.jprda.com/util/login.html', 'lotqq', function (data) {
 		//回调函数，进行一些你需要的存储~~~（data数组有你需要的数据）
 		console.log('Name:' + data.Name);
 		var name = data.Name;
