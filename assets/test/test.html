@@ -1,3 +1,4 @@
+<!--
 <html>
 
 <title>用户登录</title>
@@ -16,8 +17,7 @@ function redirect(id){
 }
 function real(){
 	window.location = "/greeting/myTable?user=" + userid;
-}
-/*	*/
+} 
 	$.lotqq('101286516', 'http://node.jprda.com/test/test.html', 'lotqq', function (data) {
 		//回调函数，进行一些你需要的存储~~~（data数组有你需要的数据）
 		console.log('Name:' + data.Name);
@@ -64,6 +64,196 @@ $.ajax({ url: '/user/find?where={"openid":"' + openid + '"}',
     
 <a id="msg">请使用QQ登录</a>
 <br>
-<a id="lotqq">hello</a>
+
+</body>
+</html>
+-->
+
+
+
+<!DOCTYPE HTML>
+<html class=" hasFontSmoothing-true">
+  <head> 
+    <title>简明、标准、如一</title>
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">    
+
+		<link rel="stylesheet" type="text/css"
+			href="http://wx.jprda.com/app/scm/style/dd.css"></link>
+		<link rel="stylesheet" type="text/css"
+			href="http://wx.jprda.com/app/scm/style/login.css"></link>		
+<script type="text/javascript"
+			src="http://wx.jprda.com/components/jquery/jquery-1.6.js">
+</script>
+
+<script type='text/javascript' src='http://ajax.useso.com/ajax/libs/jquery/1.7.2/jquery.min.js?ver=3.4.2'></script>
+<script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="101286516" data-redirecturi="http://node.jprda.com/test/test.html" charset="utf-8"></script>
+<script src="/components/lotqq/lotqq.js"></script>
+
+<script type="text/javascript">
+
+var userid ;
+function redirect(id){
+    userid = id;
+    $("#msg").html("5秒钟后自动跳转。如没有自动跳转请<a href=/greeting/myTable?user=" + userid + ">点此</a>跳转");
+    setTimeout("real()",5000);
+	
+}
+function real(){
+	window.location = "/greeting/myTable?user=" + userid;
+} 
+	$.lotqq('101286516', 'http://node.jprda.com/test/test.html', 'lotqq', function (data) {
+		//回调函数，进行一些你需要的存储~~~（data数组有你需要的数据）
+		console.log('Name:' + data.Name);
+		var name = data.Name;
+		console.log('OpenId:' + data.OpenId);
+		var openid = "QQ_" + data.OpenId;
+		console.log('AccessToken:' + data.AccessToken);
+		console.log('Figureurl:' + data.Figureurl);
+$.ajax({ url: '/user/find?where={"openid":"' + openid + '"}', 
+						success: function(data){ 
+						
+                            if(data.length != 0){
+								redirect(openid); 
+							}else{
+							//alert("fail");
+							
+   $.ajax({
+            //提交数据的类型 POST GET
+            type:"POST",
+            //提交的网址
+            url:"/user/create",
+            //提交的数据
+            data:{openid : openid, name:name},
+            //返回数据的格式
+            datatype: "xml",//"xml", "html", "script", "json", "jsonp", "text".
+            //成功返回之后调用的函数             
+            success:function(data){
+              redirect(openid);           
+            }   ,
+            //调用出错执行的函数
+            error: function(){
+                //请求出错处理
+            }         
+         });
+							
+						}						
+						} 
+						
+						});
+	});
+
+
+
+function checklogin(){
+    
+    $.ajax({ url: '/user/find?where={"username":"' + $("#j_username").val() + '"}', 
+						success: function(data){ 
+						
+                            if(data.length != 0){
+								alert("登录成功");
+							}else{
+							    alert("用户名或密码不匹配");
+							}
+						}});
+    
+}
+</script>	
+
+
+
+
+
+  </head>
+  
+<body>
+<div id="wrap">
+<div class="login-button-holder">
+<div class="register-button-holder clearfix"></div>
+</div> 
+<div id="header" class="clearfix"> 
+
+</div> 
+
+<div id="content">
+<div class="login-third-holder clearfix">
+
+<h2>欢迎您</h2><br/><br/>
+
+
+
+
+
+
+
+<br/>
+<br/>
+<br/>
+<br/>
+
+
+
+
+
+</div>
+
+
+<div id="J_LoginAction" class="reg-action" style="padding-top: 20px;">
+<h2>请登录ONE</h2>
+
+<form id="authForm" action="/S3/app/one/spring/security/login" method="post">
+<input type="hidden" name="nextUrl" value="" />
+<input type="hidden" name="lcallback" value="" />
+<div class="reg-item">
+<div class="reg-input-wrapper">
+<input id="j_username" name="j_username" value="" class="reg-input" type="text" tabindex="1"
+ onclick="$('#email_label').html('');">
+<label for="j_username" class="reg-label" id="email_label">登录账号</label> 
+</div>
+</div>
+<div class="reg-item">
+<div class="reg-input-wrapper">
+<input id="j_password" name="j_password" class="reg-input" type="password" tabindex="2"
+onclick="$('#pass_label').html('');" >
+<label for="j_password" class="reg-label" id="pass_label">登录密码</label></div>
+</div>
+
+
+
+
+
+
+<p class="login-misc">
+<!--
+<span class="remember-login">
+
+<input type="hidden" name="bg" value="light"/>
+<input type="checkbox" id="remember-login" name="_spring_security_remember_me" value="1" checked="checked">
+<label for="remember-login">保持登录状态</label>
+</span>
+
+
+-->
+
+    
+   
+    
+</p>
+
+
+<button class="login-submit" type="button" onclick="checklogin()" tabindex="3">登录</button>
+
+&nbsp;<a id="lotqq">QQ</a> 
+
+<div class="clear"></div>
+</form>
+</div>
+<div class="clear"></div>
+</div>
+</div>
+
+
+
 </body>
 </html>
