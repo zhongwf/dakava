@@ -43,6 +43,10 @@ module.exports = {
 	main: function (req, res) {//cn
 		res.render('main', { title: 'main' }); 
 	},
+	//我的视频
+	myVideo: function (req, res) {//cn
+		res.render('myVideo', { title: '我的朋友圈视频' , api: 'ShareVideo' ,user: req.query.user}); 
+	},
 	//我的表
 	myTable: function (req, res) {//cn
 		res.render('myTable', { title: '我的数据表' , api: 'table' ,user: req.query.user}); 
