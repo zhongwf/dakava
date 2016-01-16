@@ -12,121 +12,61 @@
     <script src="//kendo.cdn.telerik.com/2016.1.112/js/kendo.all.min.js"></script>
 </head>
 <body>
-<div data-role="view" id="tabstrip-profile" data-init="mobileListViewEndlessScrolling"  data-title="我的视频" data-layout="mobile-tabstrip">
+<div data-role="view" data-init="mobileListViewEndlessScrolling"  data-title="我的视频" >
+    <header data-role="header">
+        <div data-role="navbar">
+            <span data-role="view-title">我的视频</span>
+            <a data-align="right" data-icon="camera" data-role="button" href="#formappearance">选文件</a>
+        </div>
+    </header>
+
     <ul id="endless-scrolling"></ul>
 </div>
 
 
-
-<div data-role="view" id="tabstrip-upload" data-title="我要上传" data-layout="mobile-tabstrip">
- <form action="./index.html">
+<div data-role="view" id="formappearance" data-title="选文件" data-use-native-scrolling="true">
+    <header data-role="header">
+        <div data-role="navbar">
+            <a class="nav-button" href="#/" data-align="left" data-role="backbutton">Back</a>
+            <span data-role="view-title">Contacts</span>
+        </div>
+    </header>
+  <form action="./index.html">
         <ul data-role="listview" data-style="inset">
 
 
             <li>
                 <label>
                     视频文件
-                     <input type="file" value="选择文件" id="url"  />
+                     <input type="file" value="选择文件" />
                 </label>
             </li>
             <li>
                 <label>视频标题
-                    <input type="text" value="请输入标题" id="title" />
+                    <input type="text" value="请输入标题" />
                 </label>
             </li>
             <li>
                 <label>
                     说明
-                    <textarea style="resize: none" id="introduction">请输入描述</textarea>
+                    <textarea style="resize: none">请输入描述</textarea>
                 </label>
             </li>
             <li>
-                    <i></i> <a data-role="button" id="uploadButtom" class="km-primary km-justified" data-icon="action" >上传视频文件</a>
-                    <input type="hidden" id="authorId" value="<%= user %>"/>
-                    <input type="hidden" id="authorNickname" value="<%= user %>"/>
+                    <i></i> <a data-role="button" class="km-primary km-justified" data-icon="action" >上传视频文件</a>
             </li>
         </ul>
     </form>
-</div>
-<script>
-
-
-
-$(document).ready(function(){
-
-
-
-
-  $("#uploadButtom").click(function(){
-    console.log('uploading.');
     
-    
-     $.post("/<%= api %>/create",{
-        title : $("#title").val(),
-        introduction : $("#introduction").val(),
-        url : $("#url").val(),
-        imageUrl : $("#url").val(),
-        authorId : $("#authorId").val(),
-        authorNickname : $("#authorNickname").val()
-        },function(data, textStatus, jqXHR) {
-        
-            $(".result").html(data);
-        },"json"
-    );    
-    
-    
-  });
-});
-
-
-
-</script>
-
-
-<div data-role="view" id="tabstrip-settings" data-title="系统设置" data-layout="mobile-tabstrip">
-    <ul data-role="listview" data-style="inset" data-type="group">
-        <li>
-            Eduardo Batista
-            <ul>
-                <li>Notify when online <input type="checkbox" data-role="switch" checked></li>
-                <li>Administrator <input type="checkbox" data-role="switch"></li>
-                <li>Access to stats <input type="checkbox" data-role="switch" checked></li>
-            </ul>
-        </li>
-    </ul>
-</div>
-
-<div data-role="layout" data-id="mobile-tabstrip" data-show="showDemoLayout">
-    <header data-role="header">
-        <div data-role="navbar">
-            <span data-role="view-title"></span>
-            <!--
-            <a data-align="right" data-role="button" class="nav-button" data-icon="home" href="#/"></a>
-            
-            <a data-align="right" data-icon="camera" data-role="button" href="#formappearance">选文件</a>
-            -->
-        </div>
-    </header>
-
-    <p>TabStrip</p>
-
-    <div data-role="footer">
+    <footer data-role="footer">
         <div data-role="tabstrip">
-            <a href="#tabstrip-profile" data-icon="contacts">我的视频
-            <!--  
-            </a><a href="#tabstrip-sales" data-icon="history">Sales
-            </a><a href="#tabstrip-rating" data-icon="favorites">Rating
-            -->
-            
-              </a><a href="#tabstrip-upload" data-icon="camera">我要上传
-           
-          
-            </a><a href="#tabstrip-settings" data-icon="settings">系统设置</a>
+            <a data-role="button" data-icon="home" data-badge="18">Inbox</a>
+            <a data-role="button" data-icon="compose" data-badge="3">Drafts</a>
+            <a data-role="button" data-icon="organize" data-badge="21">Junk</a>
+            <a data-role="button" data-icon="trash" data-badge="53">Trash</a>
         </div>
-    </div>
+    </footer>    
 </div>
-
-
 
 
 
@@ -141,6 +81,27 @@ $(document).ready(function(){
 
 <script>
     function mobileListViewEndlessScrolling() {
+        
+        /*
+        var dataSource = new kendo.data.DataSource({
+            type: "odata",
+            transport: {
+                read: {
+                    url: "/shareVideo"
+                }
+            },
+            schema: {
+                total: function () { return 77; }
+            },
+            sort: {
+                field: "ProductID",
+                dir: "desc"
+            },
+            serverPaging: true,
+            serverSorting: true,
+            pageSize: 50
+        });
+        */
            var crudServiceBaseUrl = "",
                         dataSource = new kendo.data.DataSource({
                             transport: {
@@ -204,19 +165,6 @@ $(document).ready(function(){
   margin-top: .2em;
   margin-bottom: .2em;
 }
-</style>
-
-<style>
-    .sales-down,
-    .sales-hold,
-    .sales-up,
-    .value {
-        float: right;
-    }
-    .sales-up { color: #4caf50; }
-    .sales-down { color: #ff4350; }
-    .sales-hold { color: #2196f3; }
-    .value { color: #c7cdd0; }
 </style>
 
 
