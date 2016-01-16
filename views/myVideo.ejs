@@ -10,6 +10,8 @@
 
     <script src="//kendo.cdn.telerik.com/2016.1.112/js/jquery.min.js"></script>
     <script src="//kendo.cdn.telerik.com/2016.1.112/js/kendo.all.min.js"></script>
+    <script src="http://wx.jprda.com/components/jquery/MultiFile/jquery.MultiFile.js"></script>	
+	
 </head>
 <body>
 <div data-role="view" id="tabstrip-profile" data-init="mobileListViewEndlessScrolling"  data-title="我的视频" data-layout="mobile-tabstrip">
@@ -19,25 +21,26 @@
 
 
 <div data-role="view" id="tabstrip-upload" data-title="我要上传" data-layout="mobile-tabstrip">
- <form action="./index.html">
+ <form  method="post" action="/<%= api %>/myVideoUpload" id="uploadForm" enctype="multipart/form-data">
+  
         <ul data-role="listview" data-style="inset">
 
 
             <li>
                 <label>
                     视频文件
-                     <input type="file" value="选择文件" id="url"  />
+                     <input type="file"  value="选择文件" id="url" name="myVideo" />
                 </label>
             </li>
             <li>
                 <label>视频标题
-                    <input type="text" value="请输入标题" id="title" />
+                    <input type="text" name="title" value="请输入标题" id="title" />
                 </label>
             </li>
             <li>
                 <label>
                     说明
-                    <textarea style="resize: none" id="introduction">请输入描述</textarea>
+                    <textarea style="resize: none" id="introduction" name="introduction">请输入描述</textarea>
                 </label>
             </li>
             <li>
@@ -61,7 +64,8 @@ $(document).ready(function(){
     console.log('uploading.');
     
     
-     $.post("/<%= api %>/create",{
+    /*
+	$.post("/<%= api %>/myVideoUpload",{
         title : $("#title").val(),
         introduction : $("#introduction").val(),
         url : $("#url").val(),
@@ -73,8 +77,25 @@ $(document).ready(function(){
             $(".result").html(data);
         },"json"
     );    
-    
-    
+    */
+	$("#uploadForm").submit();
+	if(true){
+		return;
+	}
+	var url = "/<%= api %>/myVideoUpload";
+	console.log('uploadForm:' + $("#uploadForm"));
+	$("#uploadForm").ajaxSubmit({  
+           type: "POST",
+           url: url,
+            mimeType: "multipart/form-data",
+           contentType: false,
+           processData: false,        
+           success: function(data)
+           {	
+				console.log("提交成功");
+		   }
+		   });
+    console.log('finish.');
   });
 });
 
