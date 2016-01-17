@@ -11,7 +11,9 @@
     <script src="//kendo.cdn.telerik.com/2016.1.112/js/jquery.min.js"></script>
     <script src="//kendo.cdn.telerik.com/2016.1.112/js/kendo.all.min.js"></script>
     <script src="http://wx.jprda.com/components/jquery/MultiFile/jquery.MultiFile.js"></script>	
-	
+<style>
+
+</style>
 </head>
 <body>
 <div data-role="view" id="tabstrip-profile" data-init="mobileListViewEndlessScrolling"  data-title="我的视频" data-layout="mobile-tabstrip">
@@ -137,6 +139,7 @@ $(document).ready(function(){
 });
 
 
+
 function closeModalViewLogin() {
         $("#uploadFinish").kendoMobileModalView("close");
     
@@ -194,9 +197,69 @@ function shareViedeo() {
    
 </div>
 
-<div data-role="layout" data-id="mobile-tabstrip" data-show="showDemoLayout">
-    <header data-role="header">
+
+<div data-role="view" id="detail" data-show="rebindDetailView" data-title="视频详情" data-layout="mobile-tabstrip">
+   <header data-role="header">
         <div data-role="navbar">
+            <a class="nav-button" href="#/" data-align="left" data-role="backbutton">Back</a>
+            <span data-role="view-title">Contacts</span>
+            <a data-align="right" data-icon="share" data-role="button" id="editPreviewButton" videoId="">预览并分享</a>
+        </div>
+    </header>
+    <ul data-role="listview" data-style="inset" data-type="group">
+        <li>
+            <ul>
+                <li id="editTitle"></li>
+                <li id="editIntroduction"></li>
+                <li id="editCreatedAt"></li>
+            </ul>
+        </li>
+    </ul>
+    <a data-role="button" id="deleteButtom" class="km-primary km-justified" data-icon="action" >删除</a>
+   
+</div>
+<script>
+
+$(document).ready(function(){
+  $("#editPreviewButton").click(function(){
+        
+        window.location="/ShareVideo/share?videoId=" +  $("#editPreviewButton").attr('videoId');
+  });
+});
+
+    function rebindDetailView(e) {
+        console.log('rebindDetailView');
+        var videoId = e.view.params.videoId,
+            element = e.view.element,
+            backButton = element.find('#employee-back'),
+            scButton = element.find('[data-icon="source-code"]');
+            listView = element.find("#hierarchical-listview").data('kendoMobileListView'),
+            navBar = element.find('#employee-navbar').data('kendoMobileNavBar');
+console.log('videoId:' +videoId);
+        if (videoId) {
+            
+            dataSource.fetch(function() {
+                var record =dataSource.get(videoId);
+                console.log('fetch' + record.imageUrl);
+                if (record) {
+                    $("#editTitle").html(record.title);
+                    $("#editIntroduction").html(record.introduction);
+                    $("#editCreatedAt").html(kendo.toString(kendo.parseDate(record.createdAt, "yyyy-MM-ddTHH:mm"), "yyyy-MM-dd HH:mm"));
+                    
+                    $("#editPreviewButton").attr('videoId',videoId);
+           
+                    
+                }
+            });
+        } 
+    }
+
+</script>
+
+<div data-role="layout" data-id="mobile-tabstrip" data-show="showDemoLayout">
+<!-- style="display:none;visibility:hidden" -->
+    <header data-role="header">
+        <div data-role="navbar"  >
             <span data-role="view-title"></span>
             <!--
             <a data-align="right" data-role="button" class="nav-button" data-icon="home" href="#/"></a>
@@ -239,13 +302,13 @@ function shareViedeo() {
  
         <p>#:kendo.toString(kendo.parseDate(createdAt, "yyyy-MM-ddTHH:mm"), "yyyy-MM-dd HH:mm")#</p>
         <p>&nbsp;#:kendo.toString(introduction, "c")#</p>
-  
+  <a data-role="detailbutton" data-icon="details" class="km-style-default"  href="detail?videoId=#:id#"></a>
 </script>
 
 <script>
-    function mobileListViewEndlessScrolling() {
-           var crudServiceBaseUrl = "",
-                        dataSource = new kendo.data.DataSource({
+
+           var crudServiceBaseUrl = "";
+           var dataSource = new kendo.data.DataSource({
                             transport: {
                                 read:  {
                                     url: crudServiceBaseUrl + "/<%= api %>/find",
@@ -293,6 +356,9 @@ function shareViedeo() {
                                 }
                             }
                         });
+                        
+    function mobileListViewEndlessScrolling() {
+
 
         $("#endless-scrolling").kendoMobileListView({
             dataSource: dataSource,
