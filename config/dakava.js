@@ -2,5 +2,7 @@
 module.exports = {
 AliyunOssAccessKeyId : 'xxx',
 AliyunOssHost : 'oss-cn-beijing-internal.aliyuncs.com',
-AliyunOssAccessKeySecret : 'xxxx'
+AliyunOssAccessKeySecret : 'xxx',
+AliyunOssHost_Public : 'oss-cn-beijing.aliyuncs.com',
+
 };

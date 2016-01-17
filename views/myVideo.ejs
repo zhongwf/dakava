@@ -28,7 +28,7 @@
 
             <li>
                 <label  class="required"><b>视频文件*</b></label>
-                     <input type="file"  value="选择文件" required  id="video" name="video" />
+                     <input type="file"  value="选择文件"   id="video" name="video" />
                 
             </li>
             <li>
@@ -79,11 +79,13 @@ $(document).ready(function(){
         
     }else{
         status.text("请填写必填项")
+       
                                 .removeClass("valid")
                                 .addClass("invalid");
+         console.log("表单校验不通过");                        
                                 return;
     }
-    /*
+
  $.ajax({
             type:"POST",
             url:"/<%= api %>/myVideoUpload", 
@@ -109,7 +111,7 @@ $(document).ready(function(){
                 console.log("ajax upload image fail"); 
             }         
          });
-        	*/
+         /*   	
          var url = "/<%= api %>/myVideoUpload";
          	$("#uploadForm").ajaxSubmit({  
            type: "POST",
@@ -128,6 +130,7 @@ $(document).ready(function(){
 				console.log("提交失败");
 		   }
 		   });
+		   */
 	  
     
   });

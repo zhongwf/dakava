@@ -36,8 +36,9 @@ module.exports = {
                 title: req.param('title'),
                 introduction: req.param('introduction'),
                 authorId: req.param('authorId'),
-                authorNickname: req.param('authorNickname')
-                
+                authorNickname: req.param('authorNickname'),
+                url:req.session.ajaxFileSavePath,
+                imageUrl:req.session.ajaxFileSavePath
             }).exec(function createCB(err, created){
   
                 if (err) return res.negotiate(err);
@@ -77,6 +78,7 @@ oss.putObject({
 }, function (err, result) {
        if (err) return res.negotiate(err);
        console.log('aliyun oss upload ok');
+       req.session.ajaxFileSavePath = "http://dakava." + dakava.AliyunOssHost_Public + "/video/" + filename;
 			      return res.ok();
   
 });
