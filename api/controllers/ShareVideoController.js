@@ -7,10 +7,23 @@
 /*
  * 可选 option
  *
- * host:    default is: oss-cn-hangzhou.aliyuncs.com,
+ * host:    default is: dakava.oss-cn-beijing-internal.aliyuncs.com,
  * timeout: default is: 300000,
  * agent:   default is: agent.maxSockets = 20
  */
+var OSS = require('aliyun-oss');
+var dakava = require("../../config/dakava"); 
+
+console.log("AlyunOssHost" + dakava.AliyunOssHost);
+var option = {
+  accessKeyId: dakava.AliyunOssAccessKeyId,
+  host: dakava.AliyunOssHost,
+  accessKeySecret: dakava.AliyunOssAccessKeySecret
+};
+
+
+
+
 
 var oss = OSS.createClient(option);
 
@@ -32,17 +45,24 @@ module.exports = {
 			    }
 
 			    console.log('ok '+ uploadedFiles[0].fd);
+			    var filename = uploadedFiles[0].fd.substring(uploadedFiles[0].fd.lastIndexOf('/') + 1, uploadedFiles[0].fd.length);
+			    console.log('ok '+ filename);
+			    
 			    console.log('req.session.me '+ req.session.me);
 			      console.log('sails.getBaseUrl() '+ sails.getBaseUrl());
-			      /*
+			      
 oss.putObject({
   bucket: 'dakava',
-  object: 'video',
-  source: ''
-}, function (err, res) {
-  console.log(res.objectUrl);
-});*/
-                return res.ok();
+  object: 'video/' + filename,
+  source: uploadedFiles[0].fd
+}, function (err, result) {
+       if (err) return res.negotiate(err);
+       console.log('aliyun oss upload ok');
+			      return res.ok();
+  
+});
+
+
 			    // Save the "fd" and the url where the avatar for a user can be accessed
 //			    User.update(req.session.me, {
 //
