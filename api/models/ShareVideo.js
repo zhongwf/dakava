@@ -8,7 +8,13 @@
 module.exports = {
 
   attributes: {
-
+      /*
+    title: 'STRING',
+    introduction: 'STRING',
+    url: 'STRING',
+    authorId: 'STRING',
+    authorNickname: 'STRING',
+    imageUrl: 'STRING'
+    */
   }
 };
-

@@ -27,27 +27,30 @@
 
 
             <li>
-                <label>
-                    视频文件
-                     <input type="file"  value="选择文件" id="url" name="myVideo" />
-                </label>
+                <label  class="required"><b>视频文件*</b></label>
+                     <input type="file"  value="选择文件" required  id="video" name="video" />
+                
             </li>
             <li>
-                <label>视频标题
-                    <input type="text" name="title" value="请输入标题" id="title" />
-                </label>
+                <label  class="required"><b>视频标题*</b>   </label>
+                    <input type="text" name="title" required placeholder="请在此输入标题"  value="" id="title" />
+             
             </li>
             <li>
-                <label>
-                    说明
-                    <textarea style="resize: none" id="introduction" name="introduction">请输入描述</textarea>
-                </label>
+            <label  class="required"><b>视频说明</b>   </label>
+                    <textarea style="resize: none" id="introduction" name="introduction"
+                    placeholder="请在此输入说明" ></textarea>
+              
             </li>
+            <!--
+            <li class="status" style="text-algin:center;">
+                    </li>-->
             <li>
                     <i></i> <a data-role="button" id="uploadButtom" class="km-primary km-justified" data-icon="action" >上传视频文件</a>
                     <input type="hidden" id="authorId" value="<%= user %>"/>
                     <input type="hidden" id="authorNickname" value="<%= user %>"/>
             </li>
+            
         </ul>
     </form>
 </div>
@@ -58,63 +61,134 @@
 $(document).ready(function(){
 
 
+    $("#video").kendoUpload({
+                        async: {
+                            saveUrl: "/ShareVideo/ajaxFileSave",
+                            removeUrl: "/ShareVideo/ajaxFileRemove",
+                            autoUpload: true
+                        },
+                        multiple: false
+                    });
 
 
   $("#uploadButtom").click(function(){
     console.log('uploading.');
-    
-    
+     var validator = $("#uploadForm").kendoValidator().data("kendoValidator");
+     var status = $(".status");
+    if (validator.validate()) {
+        
+    }else{
+        status.text("请填写必填项")
+                                .removeClass("valid")
+                                .addClass("invalid");
+                                return;
+    }
     /*
-	$.post("/<%= api %>/myVideoUpload",{
+ $.ajax({
+            type:"POST",
+            url:"/<%= api %>/myVideoUpload", 
+            data:{
         title : $("#title").val(),
+        mimeType: "multipart/form-data",
         introduction : $("#introduction").val(),
-        url : $("#url").val(),
-        imageUrl : $("#url").val(),
+        url : $("#xx").val(),
+        imageUrl : $("#xx").val(),
         authorId : $("#authorId").val(),
         authorNickname : $("#authorNickname").val()
-        },function(data, textStatus, jqXHR) {
-        
-            $(".result").html(data);
-        },"json"
-    );    
-    */
-	$("#uploadForm").submit();
-	if(true){
-		return;
-	}
-	var url = "/<%= api %>/myVideoUpload";
-	console.log('uploadForm:' + $("#uploadForm"));
-	$("#uploadForm").ajaxSubmit({  
+        },
+            //返回数据的格式
+            datatype: "json",//"xml", "html", "script", "json", "jsonp", "text".
+             
+            success:function(data){
+                $("#uploadFinish").kendoMobileModalView("open");
+                console.log("ajax upload image ok"); 
+            }   ,
+            //调用出错执行的函数
+            error: function(){
+                //请求出错处理
+                console.log("ajax upload image fail"); 
+            }         
+         });
+        	*/
+         var url = "/<%= api %>/myVideoUpload";
+         	$("#uploadForm").ajaxSubmit({  
            type: "POST",
            url: url,
             mimeType: "multipart/form-data",
            contentType: false,
-           processData: false,        
+           processData: false,
+           dataType: "json",
            success: function(data)
            {	
+                $("#uploadFinish").kendoMobileModalView("open");
 				console.log("提交成功");
+		   },
+		   error: function()
+           {	 
+				console.log("提交失败");
 		   }
 		   });
-    console.log('finish.');
+	  
+    
   });
 });
 
 
-
+function closeModalViewLogin() {
+        $("#uploadFinish").kendoMobileModalView("close");
+    
+}
+function viewVideoList() {
+        window.location="/greeting/myVideo?user=<%= user %>";
+}
+function shareViedeo() {
+        window.location="/greeting/shareViedeo?user=<%= user %>";
+}
 </script>
 
+
+<div data-role="modalview" id="uploadFinish" style="width: 90%;">
+    <div data-role="header">
+        <div data-role="navbar">
+            <span>&nbsp;</span>
+            <a data-click="closeModalViewLogin" data-role="button" data-align="right">关闭</a>
+        </div>
+    </div>
+
+    <ul data-role="listview" data-style="inset">
+        <li style="text-align: center;"> 您已经成功上传视频！</li> 
+    </ul>
+    <div data-role="footer">
+        <div data-role="navbar">
+            <a data-click="viewVideoList" id="modalview-login-button" type="button" data-role="button" data-align="right">查看我的视频列表</a>
+            <a data-click="shareViedeo" id="modalview-reg-button" type="button" data-role="button" data-align="right">分享刚上传的视频</a>
+        </div>
+    </div>
+</div>
+    
 
 <div data-role="view" id="tabstrip-settings" data-title="系统设置" data-layout="mobile-tabstrip">
     <ul data-role="listview" data-style="inset" data-type="group">
         <li>
-            Eduardo Batista
+           系统设置
             <ul>
-                <li>Notify when online <input type="checkbox" data-role="switch" checked></li>
-                <li>Administrator <input type="checkbox" data-role="switch"></li>
-                <li>Access to stats <input type="checkbox" data-role="switch" checked></li>
+                <li>上传后自动压缩视频 <input type="checkbox" data-role="switch" checked></li>
+                <li>朋友浏览时推荐视频 <input type="checkbox" data-role="switch" checked></li>
+          
+                
+            </ul>
+        </li>
+        <li >
+             Dakava项目
+            <ul>
+                <li>意见反馈</li>
+                <li>联系我们</li>
+            
+                
             </ul>
         </li>
     </ul>
+   
 </div>
 
 <div data-role="layout" data-id="mobile-tabstrip" data-show="showDemoLayout">
@@ -157,7 +231,12 @@ $(document).ready(function(){
         style="border-radius: 0;  border-style: none; "
         />
         <h4>#:title#</h4>
-        <p>#:kendo.toString(introduction, "c")#</p>
+      
+  
+ 
+        <p>#:kendo.toString(kendo.parseDate(createdAt, "yyyy-MM-ddTHH:mm"), "yyyy-MM-dd HH:mm")#</p>
+        <p>&nbsp;#:kendo.toString(introduction, "c")#</p>
+  
 </script>
 
 <script>
@@ -166,9 +245,9 @@ $(document).ready(function(){
                         dataSource = new kendo.data.DataSource({
                             transport: {
                                 read:  {
-                                    url: crudServiceBaseUrl + "/<%= api %>",
+                                    url: crudServiceBaseUrl + "/<%= api %>/find",
                                     dataType: "json"
-                                   , data: { where: '{"authorId":"<%= user %>"}' }
+                                   , data: { where: '{"authorId":"<%= user %>"}', sort:'createdAt DESC' }
                                 },
 							
                                 update: {
