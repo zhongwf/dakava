@@ -44,8 +44,8 @@ module.exports = {
                 if (err) return res.negotiate(err);
                 console.log('Created user with name ' + created.name);
                 
-                
-			    return res.ok();
+                return res.json(created);
+			    //return res.ok();
             });
 	    },
 	    

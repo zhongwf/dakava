@@ -105,6 +105,7 @@ $(document).ready(function(){
              
             success:function(data){
                 $("#uploadFinish").kendoMobileModalView("open");
+                $("#shareVideoInstant").attr("videoId",data.id);
                 console.log("ajax upload image ok"); 
             }   ,
             //调用出错执行的函数
@@ -145,10 +146,12 @@ function closeModalViewLogin() {
     
 }
 function viewVideoList() {
-        window.location="/greeting/myVideo?user=<%= user %>";
+        dataSource.read();
+       // window.location="#tabstrip-profile";
 }
 function shareViedeo() {
-        window.location="/greeting/shareViedeo?user=<%= user %>";
+        var videoId =  $("#shareVideoInstant").attr("videoId");
+        window.location="/ShareVideo/share?videoId=" + videoId;
 }
 </script>
 
@@ -166,8 +169,8 @@ function shareViedeo() {
     </ul>
     <div data-role="footer">
         <div data-role="navbar">
-            <a data-click="viewVideoList" id="modalview-login-button" type="button" data-role="button" data-align="right">查看我的视频列表</a>
-            <a data-click="shareViedeo" id="modalview-reg-button" type="button" data-role="button" data-align="right">分享刚上传的视频</a>
+            <a data-click="viewVideoList"  type="button" data-role="button" data-align="right">查看我的视频列表</a>
+            <a data-click="shareViedeo" id="shareVideoInstant" videoId="" type="button" data-role="button" data-align="right">分享刚上传的视频</a>
         </div>
     </div>
 </div>
@@ -203,7 +206,6 @@ function shareViedeo() {
         <div data-role="navbar">
             <a class="nav-button" href="#/" data-align="left" data-role="backbutton">Back</a>
             <span data-role="view-title">Contacts</span>
-            <a data-align="right" data-icon="share" data-role="button" id="editPreviewButton" videoId="">预览并分享</a>
         </div>
     </header>
     <ul data-role="listview" data-style="inset" data-type="group">
@@ -215,17 +217,67 @@ function shareViedeo() {
             </ul>
         </li>
     </ul>
-    <a data-role="button" id="deleteButtom" class="km-primary km-justified" data-icon="action" >删除</a>
+    <a data-align="right" data-icon="share" class="km-primary " data-role="button" id="editPreviewButton" videoId="">预览并分享</a>
+    <a data-role="button" id="deleteButton" class="km-primary"  data-icon="delete" >删除</a>
+   
    
 </div>
-<script>
 
+<div data-role="modalview" id="beforeDelete" style="width: 90%;">
+    <div data-role="header">
+        <div data-role="navbar">
+            <span>&nbsp;</span>
+            <a data-click="closeDeleteConfirm" data-role="button" data-align="right">关闭</a>
+        </div>
+    </div>
+
+    <ul data-role="listview" data-style="inset">
+        <li style="text-align: center;"> 确认删除吗？</li> 
+    </ul>
+    <div data-role="footer">
+        <div data-role="navbar">
+            <a data-click="deleteVideo"  type="button" data-role="button" data-align="right">确认删除</a>
+            <a data-click="closeDeleteConfirm"   videoId="" type="button" data-role="button" data-align="right">取消</a>
+        </div>
+    </div>
+</div>
+
+<script>
+function deleteVideo(){
+    console.log("deleting");
+    
+ $.ajax({
+            type:"POST",
+            url:"/<%= api %>/destroy/" + $("#editPreviewButton").attr('videoId'),  
+            datatype: "json",//"xml", "html", "script", "json", "jsonp", "text".
+            success:function(data){
+                $("#beforeDelete").kendoMobileModalView("close");
+                console.log("ajax delete ok"); 
+                dataSource.read();
+            }   ,
+            //调用出错执行的函数
+            error: function(){
+                //请求出错处理
+                console.log("ajax delete fail"); 
+            }         
+         });
+
+}
+function closeDeleteConfirm(){
+     $("#beforeDelete").kendoMobileModalView("close");
+}
 $(document).ready(function(){
   $("#editPreviewButton").click(function(){
         
         window.location="/ShareVideo/share?videoId=" +  $("#editPreviewButton").attr('videoId');
   });
+  
+  $("#deleteButton").click(function(){
+         $("#beforeDelete").kendoMobileModalView("open");
+  });  
 });
+
+
 
     function rebindDetailView(e) {
         console.log('rebindDetailView');
