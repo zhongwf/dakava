@@ -48,6 +48,19 @@ module.exports = {
 			    return res.ok();
             });
 	    },
+	    
+	    share: function (req, res) {//cn
+	    
+            ShareVideo.findOne(req.query.videoId).exec(function createCB(err, data){
+  
+                if (err) return res.negotiate(err);
+                
+                res.render('videoShare', data); 
+			 //   return res.ok();
+            });
+            
+		    
+    	},
 	
 		ajaxFileSave: function (req, res) {
 

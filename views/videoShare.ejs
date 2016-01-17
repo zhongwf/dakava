@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="fragment" content="!">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no, email=no">	 
+    <title><%= title %></title>
+	
+	
+<script src="http://g.alicdn.com/de/prismplayer/1.2.16/prism-h5-min.js"></script>	
+<link rel="stylesheet" href="http://g.alicdn.com/de/prismplayer/1.2.16/skins/default/index-min.css">	 
+
+
+
+</head>
+<body class="product-detail index">
+
+<div id='J_prismPlayer' class='prism-player'></div>
+<script>
+var player = new prismplayer({
+    id: "J_prismPlayer", // 容器id
+    source: "<%= url %>",         // 视频url 支持互联网可直接访问的视频地址
+    autoplay: true,      // 自动播放
+    width: "100%",       // 播放器宽度
+    height: "400px"      // 播放器高度
+});
+</script>
+
+<p>
+<%= introduction %>
+</p>
+
+
+
+<img width="0" height="0" src="http://keyia.oss-cn-hangzhou.aliyuncs.com/video/demoPiano.jpg"/>
+ 
+
+
+ 
+<img src="http://c.cnzz.com/wapstat.php?siteid=1253941802&r=&rnd=1234697155" width="0" height="0"  />
+</body></html>
