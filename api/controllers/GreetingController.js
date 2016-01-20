@@ -5,6 +5,8 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+var fs = require('fs');
+
 function Message(msg)
 {
     this.msg=msg;
@@ -106,6 +108,57 @@ module.exports = {
 	release: function (req, res) {//cn
 		res.render('release', { title: 'editor' }); 
 	},
+	
+	
+	
+	
+	
+	//shell 执行命令
+	
+		//自动生成代码
+	linuxCommand: function (req, res) {//cn
+	var text = req.param('text');
+	var grepCommand = req.param('grepCommand');
+	
+	console.log("date:" + new Date());
+	if(text == null || text == undefined){
+	    
+	    console.log("text empty");
+	     res.render('linuxCommand', { title: 'linux 命令 ' + new Date() , text: '' ,grepCommand: '',
+	     result:''}); 
+         //       return res.ok();
+	}else{
+	    console.log("text not empty");
+	    	fs.writeFile('/workspace/webCommand.txt', text, function (err) {
+	    if (err) throw err;
+	    console.log('It\'s saved!'); //文件被保存
+	});
+
+	var exec = require('child_process').exec; 
+	var cmdStr = 'cat /workspace/webCommand.txt | ' + grepCommand + " > /workspace/webCommandResult.txt";
+	exec(cmdStr, function(err,stdout,stderr){
+    if(err) {
+        console.log('get weather api error:'+stderr);
+    } else {
+        /*
+        这个stdout的内容就是上面我curl出来的这个东西：
+        {"weatherinfo":{"city":"北京","cityid":"101010100","temp":"3","WD":"西北风","WS":"3级","SD":"23%","WSE":"3","time":"21:20","isRadar":"1","Radar":"JC_RADAR_AZ9010_JB","njd":"暂无实况","qy":"1019"}}
+        */
+      //  var data = JSON.parse(stdout);
+        fs.readFile('/workspace/webCommandResult.txt', 'utf8', function (err, data) {
+            if (err) throw err;
+                console.log(data);
+                res.render('linuxCommand', { title: 'linux 命令' + new Date() 
+                , text: text ,grepCommand: grepCommand,result: data }); 
+              //  return res.ok();
+            });
+            console.log(stdout);
+        }
+	});	
+	}
+	
+
+	}
 	
 };
 

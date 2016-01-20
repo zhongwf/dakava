@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title> 
+
+    <script src="/components/kendoui/jquery.min.js"></script> 
+	<script>
+	$(document).ready(function () {
+ 
+	
+	});
+
+	</script>
+
+</head>
+<body>
+<form method="post">
+text:
+<textarea  name="text" cols="60" rows="10"><%= text %></textarea>
+</br>
+grepCommand:
+<input type="text" name="grepCommand" size="60"  value="<%= grepCommand %>"/>
+</br/>
+<input type="submit">
+<hr/>
+<pre>
+<%= result %>
+</pre>
+</form>
+</body>
+</html>
