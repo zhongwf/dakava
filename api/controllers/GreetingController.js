@@ -23,6 +23,11 @@ module.exports = {
 		  return res.send("Hi, there!");
 	},
 	
+	//登录
+	rc: function (req, res) {//cn
+		res.render('remote', { title: 'remote' }); 
+	},
+	
 	bye: function (req, res) {
 			    return res.redirect("http://www.so.com");
 	},

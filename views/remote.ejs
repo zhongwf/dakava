@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>网页重启工具</title>
+
+    <script src="/components/kendoui/jquery.min.js"></script>
+	<script>
+	function rc(url) {
+	    	$.ajax({ url: url, 
+						success: function(data){ 
+						 alert(data);
+                        }
+	});
+	
+	}
+
+	</script>
+
+</head>
+<body>
+
+<a href="#" onclick="rc('http://101.6.193.146:8097/rc/restartIE')">重启146的IE<a> <br/>   
+
+<a href="#" onclick="rc('http://101.6.193.149:8097/rc/restartIE')">重启149的IE<a> <br/>   
+</body>
+</html>
