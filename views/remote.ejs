@@ -10,9 +10,10 @@
     <script src="/components/kendoui/jquery.min.js"></script>
 	<script>
 	function rc(url) {
-	    	$.ajax({ url: url, 
+	var d = new Date();
+	    	$.ajax({ url: url + "?t=" + d.getTime(), 
 						success: function(data){ 
-						 alert(data);
+						 alert("已经发送重启命令");
                         }
 	});
 	
@@ -23,12 +24,22 @@
 </head>
 <body>
 
-<a href="#" onclick="rc('http://101.6.193.146:8097/rc/restartIE')">重启146的IE<a> <br/> <br/> <br/>   
 
-<a href="#" onclick="rc('http://101.6.193.147:8097/rc/restartIE')">重启147的IE<a> <br/> <br/> <br/>   
 
-<a href="#" onclick="rc('http://101.6.193.148:8097/rc/restartIE')">重启148的IE<a> <br/> <br/> <br/>
+<a href="#" onclick="rc('http://101.6.193.148:8097/rc/restartIE')">重启1号机(148)的IE<a> <br/> <br/> <br/>
 
-<a href="#" onclick="rc('http://101.6.193.149:8097/rc/restartIE')">重启149的IE<a> <br/> <br/> <br/>   
+<a href="#" onclick="rc('http://101.6.193.149:8097/rc/restartIE')">重启2号机(149)的IE<a> <br/> <br/> <br/>   
+
+<a href="#" onclick="rc('http://101.6.193.147:8097/rc/restartIE')">重启3号机(147)的IE<a> <br/> <br/> <br/>   
+
+<a href="#" onclick="rc('http://101.6.193.146:8097/rc/restartIE')">重启4号机(146)的IE<a> <br/> <br/> <br/>   
+
+<br/>
+</hr>
+大门
+1号&nbsp;&nbsp; 3号 </br>
+2号&nbsp;&nbsp; 4号 </br>
+楼梯
+
 </body>
 </html>
